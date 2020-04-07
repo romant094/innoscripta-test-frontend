@@ -39,7 +39,7 @@ export const CatalogCard = ({item: {img, title, ingredients, price}}) => (
             <CatalogCardText>{ingredients}</CatalogCardText>
             <CatalogCardFooter tag='div'>
                 <CardPrice tag='span'>Price: ${price}</CardPrice>
-                <Button outline color='primary'>Button</Button>
+                <Button outline color='primary'>Add to cart</Button>
             </CatalogCardFooter>
         </CardBody>
     </CardItem>

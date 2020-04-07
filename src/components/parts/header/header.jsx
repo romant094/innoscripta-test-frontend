@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {Container, Button} from 'reactstrap';
@@ -54,6 +54,8 @@ const ListGroupItem = styled.li`
 const ListGroupItemLink = styled(Link)`
   color: #000;
   transition: color .2s;
+  position: relative;
+  
   &:hover{
     text-decoration: none;
     color: #FF6900;
@@ -67,12 +69,17 @@ const AuthButton = styled(Button)`
 `;
 
 const SmallLogo = styled.img`
-  margin-right: 8px;
-  margin-left: -8px;
+  position: absolute;
+  pointer-events: none;
+  top: -11px;
+  left: calc(-20px + ${({hoveredOffset: left}) => left === null ? -100 : left}px);
+  z-index: 15;
+  transition: left .5s;
 `;
 
 const NavigationInnerWrapper = styled(NavigationWrapper)`
   padding: 0;
+  position: relative;
 `;
 
 const HeaderWrapper = styled.div`
@@ -83,50 +90,61 @@ const MainLogo = styled.img`
   margin-left: -13px;
 `;
 
-export const Header = ({showSmallLogo = true}) => (
-    <HeaderWrapper>
-        <Container>
-            <Wrapper>
-                <Link to='/'>
-                    <MainLogo src={logo} alt='Pacman Pizza' />
-                </Link>
-                <div>
-                    <AuthButton outline color='secondary' className='mr-2'>Sign up</AuthButton>
-                    <AuthButton outline color='secondary'>Log in</AuthButton>
-                </div>
-            </Wrapper>
-        </Container>
-        <Navigation>
+export const Header = () => {
+    const [hoveredOffset, setHoveredOffset] = useState(null);
+
+    const navLinks = [
+        {title: 'Pizza', url: '/pizza'},
+        {title: 'Salads', url: '/salads'},
+        {title: 'Burgers', url: '/burgers'},
+        {title: 'Drinks', url: '/drinks'}
+    ];
+
+    const findOffsetLeft = event => setHoveredOffset(event.target.offsetLeft);
+
+    return (
+        <HeaderWrapper>
             <Container>
-                <NavigationWrapper>
-                    <NavigationInnerWrapper>
-                        {
-                            showSmallLogo
-                                ? <SmallLogo src={logoSmall} alt="Pacman Pizza" />
-                                : null
-                        }
-                        <ListGroup>
-                            <ListGroupItem>
-                                <ListGroupItemLink to='/pizza'>Pizza</ListGroupItemLink>
-                            </ListGroupItem>
-                            <ListGroupItem>
-                                <ListGroupItemLink to='/salads'>Salads</ListGroupItemLink>
-                            </ListGroupItem>
-                            <ListGroupItem>
-                                <ListGroupItemLink to='/burgers'>Burgers</ListGroupItemLink>
-                            </ListGroupItem>
-                            <ListGroupItem>
-                                <ListGroupItemLink to='/drinks'>Drinks</ListGroupItemLink>
-                            </ListGroupItem>
-                        </ListGroup>
-                    </NavigationInnerWrapper>
-                    <CartButton color="primary">
-                        <span>Cart</span>
-                        <span className='mr-2 ml-2'>|</span>
-                        <span>2</span>
-                    </CartButton>
-                </NavigationWrapper>
+                <Wrapper>
+                    <Link to='/'>
+                        <MainLogo src={logo} alt='Pacman Pizza' />
+                    </Link>
+                    <div>
+                        <AuthButton outline color='secondary' className='mr-2'>Sign up</AuthButton>
+                        <AuthButton outline color='secondary'>Log in</AuthButton>
+                    </div>
+                </Wrapper>
             </Container>
-        </Navigation>
-    </HeaderWrapper>
-);
+            <Navigation>
+                <Container>
+                    <NavigationWrapper>
+                        <NavigationInnerWrapper>
+                            <SmallLogo src={logoSmall} alt="Pacman Pizza" hoveredOffset={hoveredOffset} />
+                            <ListGroup>
+                                {navLinks.map(({title, url}, index) => (
+                                        <ListGroupItem key={title}>
+                                            <ListGroupItemLink
+                                                to={url}
+                                                onMouseEnter={event => findOffsetLeft(event)}
+                                                onMouseLeave={() => setHoveredOffset(null)}
+                                            >
+                                                {title}
+                                            </ListGroupItemLink>
+                                        </ListGroupItem>
+                                    )
+                                )}
+                            </ListGroup>
+                        </NavigationInnerWrapper>
+                        <Link to='/cart'>
+                            <CartButton color="primary">
+                                <span>Cart</span>
+                                <span className='mr-2 ml-2'>|</span>
+                                <span>2</span>
+                            </CartButton>
+                        </Link>
+                    </NavigationWrapper>
+                </Container>
+            </Navigation>
+        </HeaderWrapper>
+    )
+};
