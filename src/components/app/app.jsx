@@ -4,8 +4,7 @@ import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom
 import {PizzaServiceProvider} from '../context'
 import {pizzaService} from '../../service';
 import {ErrorBoundary} from '../error-boundary';
-import {Content} from '../content';
-import {Header} from '../header';
+import {Content, Header, Footer} from '../parts';
 import {Home, Cart, Product, PageNotFound} from '../pages';
 import {store} from '../../store';
 
@@ -28,6 +27,7 @@ export const App = () => {
                                     </Route>
                                 </Switch>
                             </Content>
+                            <Footer/>
                         </div>
                     </Router>
                 </PizzaServiceProvider>

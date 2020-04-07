@@ -2,8 +2,8 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {Container, Button} from 'reactstrap';
-import logo from '../../assests/images/logo/logo.svg';
-import logoSmall from '../../assests/images/logo/logo-small.svg';
+import logo from '../../../assests/images/logo/logo.svg';
+import logoSmall from '../../../assests/images/logo/logo-small.svg';
 
 const Wrapper = styled.div`
   display:flex;
