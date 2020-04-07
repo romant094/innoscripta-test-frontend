@@ -68,8 +68,21 @@ const AuthButton = styled(Button)`
   font-size: 14px;
 `;
 
-export const Header = () => (
-    <div>
+const SmallLogo = styled.img`
+  margin-right: 8px;
+  margin-left: -8px;
+`;
+
+const NavigationInnerWrapper = styled(NavigationWrapper)`
+  padding: 0;
+`;
+
+const HeaderWrapper = styled.div`
+  margin-bottom: 20px;
+`;
+
+export const Header = ({showSmallLogo = true}) => (
+    <HeaderWrapper>
         <Container>
             <Wrapper>
                 <Link to='/'>
@@ -84,20 +97,27 @@ export const Header = () => (
         <Navigation>
             <Container>
                 <NavigationWrapper>
-                    <ListGroup>
-                        <ListGroupItem>
-                            <ListGroupItemLink to='/pizza'>Pizza</ListGroupItemLink>
-                        </ListGroupItem>
-                        <ListGroupItem>
-                            <ListGroupItemLink to='/salads'>Salads</ListGroupItemLink>
-                        </ListGroupItem>
-                        <ListGroupItem>
-                            <ListGroupItemLink to='/burgers'>Burgers</ListGroupItemLink>
-                        </ListGroupItem>
-                        <ListGroupItem>
-                            <ListGroupItemLink to='/drinks'>Drinks</ListGroupItemLink>
-                        </ListGroupItem>
-                    </ListGroup>
+                    <NavigationInnerWrapper>
+                        {
+                            showSmallLogo
+                                ? <SmallLogo src={logoSmall} alt="Pacman Pizza" />
+                                : null
+                        }
+                        <ListGroup>
+                            <ListGroupItem>
+                                <ListGroupItemLink to='/pizza'>Pizza</ListGroupItemLink>
+                            </ListGroupItem>
+                            <ListGroupItem>
+                                <ListGroupItemLink to='/salads'>Salads</ListGroupItemLink>
+                            </ListGroupItem>
+                            <ListGroupItem>
+                                <ListGroupItemLink to='/burgers'>Burgers</ListGroupItemLink>
+                            </ListGroupItem>
+                            <ListGroupItem>
+                                <ListGroupItemLink to='/drinks'>Drinks</ListGroupItemLink>
+                            </ListGroupItem>
+                        </ListGroup>
+                    </NavigationInnerWrapper>
                     <CartButton color="primary">
                         <span>Cart</span>
                         <span className='mr-2 ml-2'>|</span>
@@ -106,5 +126,5 @@ export const Header = () => (
                 </NavigationWrapper>
             </Container>
         </Navigation>
-    </div>
+    </HeaderWrapper>
 );
