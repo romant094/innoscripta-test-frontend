@@ -18,8 +18,8 @@ const SlideImage = styled.img`
 const Indicators = styled(CarouselIndicators)`
   
   li {
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     border-radius: 100px;
     border-bottom: none;
     border-top: none;

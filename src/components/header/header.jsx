@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {Container, Button} from 'reactstrap';
@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding: 0 .5rem 0 0;
 `;
 
 const Navigation = styled.div`
@@ -18,14 +17,13 @@ const Navigation = styled.div`
   z-index: 10;
   background-color: #fff;
   border-bottom: 1px solid #e6e6e6;
-  padding: .5rem .5rem .5rem 13px;
 `;
 
 const NavigationWrapper = styled.div`
   display:flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 .6rem 0;
+  padding-bottom: 10px;
 `;
 
 const CartButton = styled(Button)`
@@ -81,12 +79,16 @@ const HeaderWrapper = styled.div`
   margin-bottom: 20px;
 `;
 
+const MainLogo = styled.img`
+  margin-left: -13px;
+`;
+
 export const Header = ({showSmallLogo = true}) => (
     <HeaderWrapper>
         <Container>
             <Wrapper>
                 <Link to='/'>
-                    <img src={logo} alt='Pacman Pizza' />
+                    <MainLogo src={logo} alt='Pacman Pizza' />
                 </Link>
                 <div>
                     <AuthButton outline color='secondary' className='mr-2'>Sign up</AuthButton>
