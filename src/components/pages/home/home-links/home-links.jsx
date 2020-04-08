@@ -75,7 +75,7 @@ export const HomeLinks = () => {
             <Row>
                 {
                     NAV_LINKS.map(({imgUrl, title, url}) => (
-                        <Col xs={6} md={4} xl={3} className='mb-4 mb-sm-4'>
+                        <Col key={title} xs={6} md={4} xl={3} className='mb-4 mb-sm-4'>
                             <CustomLink to={url}>
                                 <ImageWrapper>
                                     <ImageWrapperOverlay />
