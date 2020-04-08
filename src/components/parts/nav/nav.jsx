@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
+import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {Button, Container} from 'reactstrap';
-import logoSmall from '../../../assests/images/logo/logo-small.svg';
+import {CartButton} from './cart-button';
 import {NAV_LINKS} from '../../constants';
+import logoSmall from '../../../assests/images/logo/logo-small.svg';
+import cartIcon from '../../../assests/images/icons/cart-orange.svg';
 
 const NavigationWrapper = styled.div`
   display:flex;
@@ -19,11 +22,6 @@ const Navigation = styled.div`
   background-color: #fff;
   border-bottom: 1px solid #e6e6e6;
   margin-bottom: 20px;
-`;
-
-const CartButton = styled(Button)`
-  border-radius: 8px;
-  width: 100px;
 `;
 
 const ListGroup = styled.ul`
@@ -73,15 +71,15 @@ const NavigationInnerWrapper = styled(NavigationWrapper)`
 
 export const Nav = () => {
     const [hoveredOffset, setHoveredOffset] = useState(null);
-
     const findOffsetLeft = event => setHoveredOffset(event.target.offsetLeft);
+    const cart = useSelector(state => state.cart);
 
     return (
         <Navigation>
             <Container>
                 <NavigationWrapper>
                     <NavigationInnerWrapper>
-                        <SmallLogo src={logoSmall} alt="Pacman Pizza" hoveredOffset={hoveredOffset} />
+                        <SmallLogo src={logoSmall} alt='Pacman Pizza' hoveredOffset={hoveredOffset} />
                         <ListGroup>
                             {NAV_LINKS.map(({title, url}, index) => (
                                     <ListGroupItem key={title}>
@@ -98,11 +96,7 @@ export const Nav = () => {
                         </ListGroup>
                     </NavigationInnerWrapper>
                     <Link to='/cart'>
-                        <CartButton color="primary">
-                            <span>Cart</span>
-                            <span className='mr-2 ml-2'>|</span>
-                            <span>2</span>
-                        </CartButton>
+                        <CartButton total={cart.length} />
                     </Link>
                 </NavigationWrapper>
             </Container>
