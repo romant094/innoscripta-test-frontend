@@ -1,16 +1,13 @@
-import React from 'react';
-import {Provider} from 'react-redux';
-import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux'
+import {Redirect, Route, Switch} from 'react-router-dom';
+import {useCookies} from 'react-cookie';
 import styled from 'styled-components';
-import {PizzaServiceProvider} from '../context'
-import {pizzaService} from '../../service';
-import {ErrorBoundary} from '../error-boundary';
-import {Content, Header, Nav, Footer} from '../parts';
-import {Home, Cart, Products, PageNotFound} from '../pages';
-import {store} from '../../stores';
+import {Content, Nav, Header, Footer} from '../parts';
+import {Home, Cart, PageNotFound, Products} from '../pages';
 import {NAV_LINKS} from '../constants';
 
-const AppWrapper = styled.div`
+const Wrapper = styled.div`
   display:flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -19,41 +16,48 @@ const AppWrapper = styled.div`
 `;
 
 export const App = () => {
+    const [cookies, setCookie] = useCookies(['cart']);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        cookies.cart && dispatch({
+            type: 'UPDATE_CART',
+            payload: cookies.cart
+        });
+    });
+
+    const cart = useSelector(state => state.cart);
+    console.log(cart);
+
+    // setCookie('cart', [1,2,3,4]);
+
     return (
-        <Provider store={store}>
-            <ErrorBoundary>
-                <PizzaServiceProvider value={pizzaService}>
-                    <Router>
-                        <AppWrapper>
-                            <Header />
-                            <Nav />
-                            <Content>
-                                <Switch>
-                                    <Route path='/' exact render={() => <Home />} />
-                                    <Route path='/cart' render={() => <Cart />} />
-                                    {
-                                        NAV_LINKS.map(link => (
-                                            <Route
-                                                key={link.title}
-                                                path={link.url}
-                                                exact
-                                                render={
-                                                    () => <Products product={link} />
-                                                }
-                                            />)
-                                        )
-                                    }
-                                    <Route path='/page-not-found' render={() => <PageNotFound />} />
-                                    <Route path='*'>
-                                        <Redirect to='/page-not-found' />
-                                    </Route>
-                                </Switch>
-                            </Content>
-                            <Footer />
-                        </AppWrapper>
-                    </Router>
-                </PizzaServiceProvider>
-            </ErrorBoundary>
-        </Provider>
+        <Wrapper>
+            <Header />
+            <Nav />
+            <Content>
+                <Switch>
+                    <Route path='/' exact render={() => <Home />} />
+                    <Route path='/cart' render={() => <Cart />} />
+                    {
+                        NAV_LINKS.map(link => (
+                            <Route
+                                key={link.title}
+                                path={link.url}
+                                exact
+                                render={
+                                    () => <Products product={link} />
+                                }
+                            />)
+                        )
+                    }
+                    <Route path='/page-not-found' render={() => <PageNotFound />} />
+                    <Route path='*'>
+                        <Redirect to='/page-not-found' />
+                    </Route>
+                </Switch>
+            </Content>
+            <Footer />
+        </Wrapper>
     );
 };
