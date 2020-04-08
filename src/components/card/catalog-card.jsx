@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 const CardItem = styled(Card)`
   border: none;
-  width: 33%;
 `;
 
 const CatalogCardTitle = styled(CardTitle)`

@@ -1,17 +1,15 @@
 import React from 'react';
-import {CardGroup, Container, Row} from 'reactstrap';
+import {CardGroup, Col} from 'reactstrap';
 import {CatalogCard} from '../card';
 
-export const Catalog = ({items}) => {
-    return (
-        <Container>
-            <Row>
-                <CardGroup>
-                    {
-                        items.map(item => <CatalogCard key={item.title} item={item} />)
-                    }
-                </CardGroup>
-            </Row>
-        </Container>
-    );
-};
+export const Catalog = ({items}) => (
+    <CardGroup>
+        {
+            items.map(item => (
+                <Col xs={12} md={6} lg={4} xl={3} key={item.title}>
+                    <CatalogCard key={item.title} item={item} />
+                </Col>
+            ))
+        }
+    </CardGroup>
+);
