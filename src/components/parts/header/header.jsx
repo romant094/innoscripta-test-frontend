@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {Container, Button} from 'reactstrap';
 import logo from '../../../assests/images/logo/logo.svg';
-import logoSmall from '../../../assests/images/logo/logo-small.svg';
 
 const Wrapper = styled.div`
   display:flex;
@@ -17,17 +16,13 @@ const AuthButton = styled(Button)`
   font-size: 14px;
 `;
 
-const HeaderWrapper = styled.div`
-  margin-bottom: 20px;
-`;
-
 const MainLogo = styled.img`
   margin-left: -13px;
 `;
 
 export const Header = () => {
     return (
-        <HeaderWrapper>
+        <div>
             <Container>
                 <Wrapper>
                     <Link to='/'>
@@ -39,6 +34,6 @@ export const Header = () => {
                     </div>
                 </Wrapper>
             </Container>
-        </HeaderWrapper>
+        </div>
     )
 };

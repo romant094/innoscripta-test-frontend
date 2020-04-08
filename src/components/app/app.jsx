@@ -5,10 +5,10 @@ import styled from 'styled-components';
 import {PizzaServiceProvider} from '../context'
 import {pizzaService} from '../../service';
 import {ErrorBoundary} from '../error-boundary';
-import {Content, Header, Footer} from '../parts';
-import {Home, Cart, Product, PageNotFound} from '../pages';
+import {Content, Header, Nav, Footer} from '../parts';
+import {Home, Cart, Products, PageNotFound} from '../pages';
 import {store} from '../../store';
-import {Nav} from '../nav';
+import {NAV_LINKS} from '../constants';
 
 const AppWrapper = styled.div`
   display:flex;
@@ -31,7 +31,18 @@ export const App = () => {
                                 <Switch>
                                     <Route path='/' exact render={() => <Home />} />
                                     <Route path='/cart' render={() => <Cart />} />
-                                    <Route path='/pizza' render={() => <Product />} />
+                                    {
+                                        NAV_LINKS.map(link => (
+                                            <Route
+                                                key={link.title}
+                                                path={link.url}
+                                                exact
+                                                render={
+                                                    () => <Products product={link} />
+                                                }
+                                            />)
+                                        )
+                                    }
                                     <Route path='/page-not-found' render={() => <PageNotFound />} />
                                     <Route path='*'>
                                         <Redirect to='/page-not-found' />
