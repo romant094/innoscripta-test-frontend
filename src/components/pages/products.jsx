@@ -37,6 +37,7 @@ export const Products = ({product}) => {
     const [items, setItems] = useState(null);
 
     useEffect(() => {
+        // TODO fetch to the server
         if (url === '/pizza') {
             // setTimeout is only for demo
             setTimeout(() => setItems(catalog), 1000)
