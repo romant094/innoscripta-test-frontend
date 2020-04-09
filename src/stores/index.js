@@ -1,4 +1,16 @@
-import {createStore} from 'redux';
+import Cookies from 'cookies-js';
+import {createStore, applyMiddleware} from 'redux';
 import {reducer} from '../reducers';
 
-export const store = createStore(reducer);
+const logMiddleware = () => next => action => {
+    console.warn(action.type);
+    return next(action);
+};
+
+export const store = createStore(reducer, applyMiddleware(logMiddleware));
+
+store.subscribe(() => {
+    const {cart, currency} = store.getState();
+    Cookies.set('cart', JSON.stringify(cart));
+    Cookies.set('currency', currency);
+});

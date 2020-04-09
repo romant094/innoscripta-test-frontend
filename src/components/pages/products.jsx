@@ -1,15 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Container} from 'reactstrap';
-import styled from 'styled-components';
 import {Catalog} from '../catalog';
 import {EmptyCatalog} from '../empty-catalog';
-import pizza from '../../assests/images/menu/chicken-bbq.jpg';
 import {Spinner} from '../spinner';
-
-const CatalogHeader = styled.h1`
-  text-align: center;
-  margin-bottom: 2.5rem;
-`;
+import {Elements} from '../parts';
+import pizza from '../../assests/images/menu/chicken-bbq.jpg';
 
 const catalog = [
     {
@@ -52,7 +47,7 @@ export const Products = ({product}) => {
 
     return (
         <Container>
-            <CatalogHeader>{title}</CatalogHeader>
+            <Elements.PageHeading>{title}</Elements.PageHeading>
             {
                 items.length
                     ? <Catalog items={items} />

@@ -2,11 +2,10 @@ import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
-import {Button, Container} from 'reactstrap';
+import {Container} from 'reactstrap';
 import {CartButton} from './cart-button';
 import {NAV_LINKS} from '../../constants';
 import logoSmall from '../../../assests/images/logo/logo-small.svg';
-import cartIcon from '../../../assests/images/icons/cart-orange.svg';
 
 const NavigationWrapper = styled.div`
   display:flex;
@@ -96,7 +95,7 @@ export const Nav = () => {
                         </ListGroup>
                     </NavigationInnerWrapper>
                     <Link to='/cart'>
-                        <CartButton total={cart.length} />
+                        <CartButton itemsCount={cart.length} />
                     </Link>
                 </NavigationWrapper>
             </Container>

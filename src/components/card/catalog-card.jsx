@@ -1,14 +1,12 @@
 import React from 'react';
-import {Button, Card, CardBody, CardImg, CardText, CardTitle} from 'reactstrap';
 import styled from 'styled-components';
+import {useDispatch} from 'react-redux';
+import {Button, Card, CardBody, CardImg, CardText} from 'reactstrap';
+import {Elements} from '../parts';
+import {onAddItem} from '../../actions';
 
 const CardItem = styled(Card)`
   border: none;
-`;
-
-const CatalogCardTitle = styled(CardTitle)`
-  font-weight:600;
-  font-size: 20px;
 `;
 
 const CatalogCardText = styled(CardText)`
@@ -30,16 +28,31 @@ const CardPrice = styled(CardText)`
   font-weight: 500;
 `;
 
-export const CatalogCard = ({item: {img, title, ingredients, price}}) => (
-    <CardItem>
-        <CardImg top width="100%" src={img} alt="pizza" />
-        <CardBody>
-            <CatalogCardTitle>{title}</CatalogCardTitle>
-            <CatalogCardText>{ingredients}</CatalogCardText>
-            <CatalogCardFooter tag='div'>
-                <CardPrice tag='span'>Price: ${price}</CardPrice>
-                <Button outline color='primary'>Add to cart</Button>
-            </CatalogCardFooter>
-        </CardBody>
-    </CardItem>
-);
+export const CatalogCard = ({item}) => {
+    const {img, title, ingredients, price} = item;
+    const dispatch = useDispatch();
+
+    const handleClick = () => {
+        onAddItem(item, dispatch);
+    };
+
+    return (
+        <CardItem>
+            <CardImg top width="100%" src={img} alt="pizza" />
+            <CardBody>
+                <Elements.CardTitle>{title}</Elements.CardTitle>
+                <CatalogCardText>{ingredients}</CatalogCardText>
+                <CatalogCardFooter tag='div'>
+                    <CardPrice tag='span'>Price: ${price}</CardPrice>
+                    <Button
+                        outline
+                        color='primary'
+                        onClick={handleClick}
+                    >
+                        Add to cart
+                    </Button>
+                </CatalogCardFooter>
+            </CardBody>
+        </CardItem>
+    );
+};

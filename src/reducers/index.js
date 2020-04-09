@@ -1,5 +1,8 @@
+import {updateCart} from './utils';
+
 const initialState = {
-    cart: []
+    cart: [],
+    currency: 'usd'
 };
 
 export const reducer = (state = initialState, action) => {
@@ -7,43 +10,40 @@ export const reducer = (state = initialState, action) => {
     const {type, payload} = action;
 
     switch (type) {
-        case 'UPDATE_CART':
+        case 'UPDATE_DATA_FROM_COOKIES':
             return {
                 ...state,
-                cart: payload
+                cart: payload.cart,
+                currency: payload.currency
             };
-        case 'ADD_ITEM_TO_CART':
 
+        case 'ADD_ITEM_TO_CART':
             return {
                 ...state,
-                cart: [...cart, payload]
+                cart: updateCart(cart, payload, 1)
             };
+
+        case 'DECREASE_CART_ITEM_COUNT':
+            return {
+                ...state,
+                cart: updateCart(cart, payload, -1)
+            };
+
         case 'DELETE_ITEM_FROM_CART':
             return {
                 ...state,
                 cart: [
                     ...cart.slice(0, payload),
-                    ...cart.slice(payload)
+                    ...cart.slice(payload + 1)
                 ]
             };
-        case 'CHANGE_CART_ITEM_COUNT':
-            const {id, count} = payload;
-            const editableItem = cart[id];
-            editableItem.count = editableItem.count + count;
 
-            return {
-                ...state,
-                cart: [
-                    ...cart.slice(0, id),
-                    editableItem,
-                    ...cart.slice(id)
-                ]
-            };
         case 'CLEAR_CART':
             return {
                 ...state,
                 cart: []
             };
+
         default:
             return state;
     }

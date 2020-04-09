@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import cartIcon from '../../../../assests/images/icons/cart-orange.svg';
 
 const CartImage = styled.img`
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: auto;
   color: #fff;
 `;
 
@@ -14,7 +14,7 @@ const Wrapper = styled.span`
 
 const CountWrapper = styled.span`
   position: absolute;
-  top: -8px;
+  top: -10px;
   right: -8px;
   border-radius: 100px;
   width: 20px;
@@ -27,14 +27,14 @@ const CountWrapper = styled.span`
   font-size: 11px;
 `;
 
-export const CartButton = ({total = 0}) => {
-    // const totalOutput = total < 11 ? total : '10+';
+export const CartButton = ({itemsCount = 0}) => {
+    // const totalOutput = itemsCount < 11 ? itemsCount : '10+';
 
     return (
         <Wrapper>
             <CartImage src={cartIcon} alt='Cart' />
             {
-                total > 0 && <CountWrapper>{total}</CountWrapper>
+                !!itemsCount && <CountWrapper>{itemsCount}</CountWrapper>
             }
         </Wrapper>
     );

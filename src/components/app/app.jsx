@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import {Redirect, Route, Switch} from 'react-router-dom';
-import {useCookies} from 'react-cookie';
 import styled from 'styled-components';
+import Cookies from 'cookies-js';
 import {Content, Nav, Header, Footer} from '../parts';
 import {Home, Cart, PageNotFound, Products} from '../pages';
 import {NAV_LINKS} from '../constants';
@@ -16,20 +16,20 @@ const Wrapper = styled.div`
 `;
 
 export const App = () => {
-    const [cookies, setCookie] = useCookies(['cart']);
     const dispatch = useDispatch();
+    const cookieCart = Cookies.get('cart');
+    const cart = cookieCart && JSON.parse(cookieCart);
+    const currency = Cookies.get('currency');
 
     useEffect(() => {
-        cookies.cart && dispatch({
-            type: 'UPDATE_CART',
-            payload: cookies.cart
+        cart && dispatch({
+            type: 'UPDATE_DATA_FROM_COOKIES',
+            payload: {
+                cart,
+                currency
+            }
         });
     });
-
-    const cart = useSelector(state => state.cart);
-    console.log(cart);
-
-    // setCookie('cart', [1,2,3,4]);
 
     return (
         <Wrapper>
