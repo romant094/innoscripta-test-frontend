@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux';
 import {CartItem} from './cart-item';
 import {Elements} from '../../parts'
 import {Link} from 'react-router-dom';
+import {withPizzaService} from '../../hoc';
 
 const Total = styled.div`
   display:flex;
@@ -32,11 +33,15 @@ const CartButton = styled(Button)`
   width: 150px;
 `;
 
-export const Cart = () => {
+const CartContainer = ({pizzaService}) => {
     const cart = useSelector(state => state.cart);
     // TODO replace to utils
     const total = cart.reduce((acc, item) => acc + (item.price * item.count), 0);
 
+    const sendCart = () => {
+        pizzaService.request('/cart', 'POST', cart)
+            .then(res => console.log(res))
+    };
 
     return (
         <Container>
@@ -61,7 +66,7 @@ export const Cart = () => {
                                 <Link to='/pizza'>
                                     <CartButton outline color='secondary'>Back to menu</CartButton>
                                 </Link>
-                                <CartButton color='primary'>Order</CartButton>
+                                <CartButton color='primary' onClick={sendCart}>Order</CartButton>
                             </CartButtonsWrapper>
                         </React.Fragment>
                     )
@@ -70,3 +75,5 @@ export const Cart = () => {
         </Container>
     );
 };
+
+export const Cart = withPizzaService()(CartContainer);
