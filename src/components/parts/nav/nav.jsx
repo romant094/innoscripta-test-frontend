@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {Container} from 'reactstrap';
 import {CartButton} from './cart-button';
-import {NAV_LINKS} from '../../constants';
+import {PRODUCT_TYPES} from '../../constants';
 import logoSmall from '../../../assests/images/logo/logo-small.svg';
 
 const NavigationWrapper = styled.div`
@@ -80,10 +80,10 @@ export const Nav = () => {
                     <NavigationInnerWrapper>
                         <SmallLogo src={logoSmall} alt='Pacman Pizza' hoveredOffset={hoveredOffset} />
                         <ListGroup>
-                            {NAV_LINKS.map(({title, url}, index) => (
+                            {PRODUCT_TYPES.map(({title, type}) => (
                                     <ListGroupItem key={title}>
                                         <ListGroupItemLink
-                                            to={url}
+                                            to={`/${type}`}
                                             onMouseEnter={event => findOffsetLeft(event)}
                                             onMouseLeave={() => setHoveredOffset(null)}
                                         >

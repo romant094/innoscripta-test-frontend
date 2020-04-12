@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Cookies from 'cookies-js';
 import {Content, Nav, Header, Footer} from '../parts';
 import {Home, Cart, PageNotFound, Products} from '../pages';
-import {NAV_LINKS} from '../constants';
+import {PRODUCT_TYPES} from '../constants';
 
 const Wrapper = styled.div`
   display:flex;
@@ -40,13 +40,13 @@ export const App = () => {
                     <Route path='/' exact render={() => <Home />} />
                     <Route path='/cart' render={() => <Cart />} />
                     {
-                        NAV_LINKS.map(link => (
+                        PRODUCT_TYPES.map(product => (
                             <Route
-                                key={link.title}
-                                path={link.url}
+                                key={product.title}
+                                path={`/${product.type}`}
                                 exact
                                 render={
-                                    () => <Products product={link} />
+                                    () => <Products product={product} />
                                 }
                             />)
                         )

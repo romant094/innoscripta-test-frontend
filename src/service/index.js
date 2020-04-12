@@ -1,7 +1,7 @@
 const {origin} = window.location;
 
 export class PizzaService {
-    _apiBase = origin === 'http://localhost:3000' ? 'http://localhost:9000/api' : '/api';
+    _apiBase = origin === 'http://localhost:3000' ? 'http://localhost:9000/api/v1' : '/api/v1';
 
     request = async (url, method = 'GET', data = null) => {
         try {

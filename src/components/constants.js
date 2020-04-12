@@ -8,13 +8,13 @@ import promo1 from '../assests/images/promo/promo1.jpeg';
 import promo2 from '../assests/images/promo/promo2.jpeg';
 import promo3 from '../assests/images/promo/promo3.jpeg';
 
-export const NAV_LINKS = [
-    {title: 'Pizza', url: '/pizza', imgUrl: pizza},
-    {title: 'Salads', url: '/salads', imgUrl: salad},
-    {title: 'Burgers', url: '/burgers', imgUrl: burger},
-    {title: 'Sushi', url: '/sushi', imgUrl: sushi},
-    {title: 'Wok', url: '/wok', imgUrl: wok},
-    {title: 'Drinks', url: '/drinks', imgUrl: drink}
+export const PRODUCT_TYPES = [
+    {title: 'Pizza', type: 'pizza', imgUrl: pizza},
+    {title: 'Salads', type: 'salads', imgUrl: salad},
+    {title: 'Burgers', type: 'burgers', imgUrl: burger},
+    {title: 'Sushi', type: 'sushi', imgUrl: sushi},
+    {title: 'Wok', type: 'wok', imgUrl: wok},
+    {title: 'Drinks', type: 'drinks', imgUrl: drink}
 ];
 
 export const PROMO_ITEMS = [

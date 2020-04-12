@@ -29,7 +29,7 @@ const CardPrice = styled(CardText)`
 `;
 
 export const CatalogCard = ({item}) => {
-    const {img, title, ingredients, price} = item;
+    const {img, title, ingredients, price, type} = item;
     const dispatch = useDispatch();
 
     const handleClick = () => {
@@ -38,7 +38,7 @@ export const CatalogCard = ({item}) => {
 
     return (
         <CardItem>
-            <CardImg top width="100%" src={img} alt="pizza" />
+            <CardImg top width="100%" src={img} alt={type} />
             <CardBody>
                 <Elements.CardTitle>{title}</Elements.CardTitle>
                 <CatalogCardText>{ingredients}</CatalogCardText>

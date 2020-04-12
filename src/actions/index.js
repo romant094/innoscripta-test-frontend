@@ -18,3 +18,10 @@ export const onDeleteItem = (id, dispatch) => {
         payload: id
     })
 };
+
+export const onProductsLoaded = (items, dispatch) => {
+    dispatch({
+        type: 'PRODUCTS_LOADED',
+        payload: items
+    })
+};

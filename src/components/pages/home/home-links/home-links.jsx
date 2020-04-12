@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {Container, Row, Col} from 'reactstrap';
-import {NAV_LINKS} from '../../../constants';
+import {PRODUCT_TYPES} from '../../../constants';
 
 const Image = styled.img`
   display:block;
@@ -74,7 +74,7 @@ export const HomeLinks = () => {
             <Header>Menu</Header>
             <Row>
                 {
-                    NAV_LINKS.map(({imgUrl, title, url}) => (
+                    PRODUCT_TYPES.map(({imgUrl, title, url}) => (
                         <Col key={title} xs={6} md={4} xl={3} className='mb-4 mb-sm-4'>
                             <CustomLink to={url}>
                                 <ImageWrapper>

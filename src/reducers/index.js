@@ -2,19 +2,24 @@ import {updateCart} from './utils';
 
 const initialState = {
     cart: [],
+    products: [],
     currency: 'usd'
 };
 
 export const reducer = (state = initialState, action) => {
-    const {cart} = state;
+    const {cart, products} = state;
     const {type, payload} = action;
 
     switch (type) {
+        case 'PRODUCTS_LOADED':
+            return {
+                ...state,
+                products: [...products, ...payload]
+            };
         case 'UPDATE_DATA_FROM_COOKIES':
             return {
                 ...state,
-                cart: payload.cart,
-                currency: payload.currency
+                cart: payload.cart
             };
 
         case 'ADD_ITEM_TO_CART':
