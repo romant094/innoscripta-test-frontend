@@ -10,7 +10,6 @@ const logMiddleware = () => next => action => {
 export const store = createStore(reducer, applyMiddleware(logMiddleware));
 
 store.subscribe(() => {
-    const {cart, currency} = store.getState();
+    const {cart} = store.getState();
     Cookies.set('cart', JSON.stringify(cart));
-    Cookies.set('currency', currency);
 });
