@@ -74,9 +74,9 @@ export const HomeLinks = () => {
             <Header>Menu</Header>
             <Row>
                 {
-                    PRODUCT_TYPES.map(({imgUrl, title, url}) => (
+                    PRODUCT_TYPES.map(({imgUrl, title, type}) => (
                         <Col key={title} xs={6} md={4} xl={3} className='mb-4 mb-sm-4'>
-                            <CustomLink to={url}>
+                            <CustomLink to={`/${type}`}>
                                 <ImageWrapper>
                                     <ImageWrapperOverlay />
                                     <ImageText>{title}</ImageText>

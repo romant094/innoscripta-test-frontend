@@ -3,7 +3,8 @@ import {updateCart} from './utils';
 const initialState = {
     cart: [],
     products: [],
-    currency: 'usd'
+    currency: 'usd',
+    authType: null
 };
 
 export const reducer = (state = initialState, action) => {
@@ -11,6 +12,11 @@ export const reducer = (state = initialState, action) => {
     const {type, payload} = action;
 
     switch (type) {
+        case 'CHANGE_AUTH_TYPE':
+            return {
+                ...state,
+                authType: payload
+            };
         case 'PRODUCTS_LOADED':
             return {
                 ...state,

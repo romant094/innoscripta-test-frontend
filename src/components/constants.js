@@ -31,3 +31,20 @@ export const PROMO_ITEMS = [
         altText: 'Promo 3'
     }
 ];
+
+export const AUTH_STATUS = {
+    PENDING: 'pending',
+    SUCCESS: 'success',
+    FAILURE: 'failure',
+    NOT_ASKED: 'not asked'
+};
+
+export const AUTH_TABS = [
+    {type: 'reg', label: 'Sign up'},
+    {type: 'auth', label: 'Sign in'}
+];
+
+export const ERROR_MESSAGE = {
+    SENDING: 'Sending...',
+    OK: 'ok'
+};

@@ -6,6 +6,7 @@ import Cookies from 'cookies-js';
 import {Content, Nav, Header, Footer} from '../parts';
 import {Home, Cart, PageNotFound, Products} from '../pages';
 import {PRODUCT_TYPES} from '../constants';
+import {AuthModal} from '../auth-modal';
 
 const Wrapper = styled.div`
   display:flex;
@@ -57,6 +58,7 @@ export const App = () => {
                     </Route>
                 </Switch>
             </Content>
+            <AuthModal />
             <Footer />
         </Wrapper>
     );

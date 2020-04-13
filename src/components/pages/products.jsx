@@ -21,9 +21,13 @@ const ProductsContainer = ({product, pizzaService}) => {
         } else {
             pizzaService.request(`/products/${type}`)
                 .then(res => {
-                    const items = formatProducts(res.result);
-                    setItems(items);
-                    onProductsLoaded(items, dispatch)
+                    if (res){
+                        const items = formatProducts(res.result);
+                        setItems(items);
+                        onProductsLoaded(items, dispatch)
+                    } else {
+                        console.log('Data receiving error')
+                    }
                 });
         }
     }, [type, pizzaService, dispatch]);
