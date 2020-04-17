@@ -29,16 +29,18 @@ const CardPrice = styled(CardText)`
 `;
 
 export const CatalogCard = ({item}) => {
-    const {img, title, ingredients, price, type} = item;
+    const {image, title, ingredients, price, type} = item;
     const dispatch = useDispatch();
 
     const handleClick = () => {
         onAddItem(item, dispatch);
     };
 
+    const imageSrc = `../public/images/${image}`;
+
     return (
         <CardItem>
-            <CardImg top width="100%" src={img} alt={type} />
+            <CardImg top width="100%" src={imageSrc} alt={type} />
             <CardBody>
                 <Elements.CardTitle>{title}</Elements.CardTitle>
                 <CatalogCardText>{ingredients}</CatalogCardText>

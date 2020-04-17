@@ -3,10 +3,11 @@ import {useDispatch} from 'react-redux'
 import {Redirect, Route, Switch} from 'react-router-dom';
 import styled from 'styled-components';
 import Cookies from 'cookies-js';
+import {PrivateRoute} from '../private-route';
 import {Content, Nav, Header, Footer} from '../parts';
-import {Home, Cart, PageNotFound, Products} from '../pages';
+import {Home, Cart, PageNotFound, Products, Cabinet} from '../pages';
+import {AuthModal, InfoModal} from '../modals';
 import {PRODUCT_TYPES} from '../constants';
-import {AuthModal} from '../auth-modal';
 
 const Wrapper = styled.div`
   display:flex;
@@ -52,6 +53,7 @@ export const App = () => {
                             />)
                         )
                     }
+                    <PrivateRoute path='/cabinet' component={Cabinet} />
                     <Route path='/page-not-found' render={() => <PageNotFound />} />
                     <Route path='*'>
                         <Redirect to='/page-not-found' />
@@ -59,6 +61,7 @@ export const App = () => {
                 </Switch>
             </Content>
             <AuthModal />
+            <InfoModal />
             <Footer />
         </Wrapper>
     );

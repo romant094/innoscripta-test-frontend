@@ -2,12 +2,12 @@ import React from 'react';
 import {useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
-import {Container, Button} from 'reactstrap';
+import {Container} from 'reactstrap';
 import {withAuth} from '../../hoc';
 import {onChangeAuthType} from '../../../actions';
 import logo from '../../../assests/images/logo/logo.svg';
-import {Authorized} from './authorized';
 import {NotAuthorized} from './not-authorized';
+import {Authorized} from './authorized';
 
 const Wrapper = styled.div`
   display:flex;
@@ -20,11 +20,11 @@ const MainLogo = styled.img`
 `;
 
 const HeaderContainer = ({authContext}) => {
-    const {user, logout, authenticated} = authContext;
+    const {user} = authContext;
     const dispatch = useDispatch();
     const handleSignUp = (type) => onChangeAuthType(type, dispatch);
     const handleSignIn = (type) => onChangeAuthType(type, dispatch);
-    const handleSignOut = () => logout();
+
     return (
         <div>
             <Container>
@@ -34,11 +34,8 @@ const HeaderContainer = ({authContext}) => {
                     </Link>
                     <div>
                         {
-                            authenticated
-                                ? <Authorized
-                                    user={user}
-                                    handleSignOut={handleSignOut}
-                                />
+                            user
+                                ? <Authorized />
                                 : <NotAuthorized
                                     handleSignUp={handleSignUp}
                                     handleSignIn={handleSignIn}

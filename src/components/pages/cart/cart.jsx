@@ -1,17 +1,21 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
+import {compose} from 'redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Container, Button} from 'reactstrap';
 import styled from 'styled-components';
-import {useSelector} from 'react-redux';
 import {CartItem} from './cart-item';
+import {withAuth, withPizzaService} from '../../hoc';
+import {onStatusMessageChange, onClearCart} from '../../../actions';
+import {round} from '../../../utils';
 import {Elements} from '../../parts'
-import {Link} from 'react-router-dom';
-import {withPizzaService} from '../../hoc';
+import {CURRENCY, STATUS_MESSAGE} from '../../constants';
 
 const Total = styled.div`
   display:flex;
   justify-content:flex-end;
-  font-size: 30px;
-  margin-bottom: 30px;
+  align-items: center;
+  font-size: 25px;
   font-weight: 500;
 `;
 
@@ -33,15 +37,95 @@ const CartButton = styled(Button)`
   width: 150px;
 `;
 
-const CartContainer = ({pizzaService}) => {
+const TotalWrapper = styled.div`
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+`;
+
+const Currency = styled(Total)``;
+
+const Select = styled.select`
+  &:active,
+  &:focus{
+    box-shadow: 0 0 0 0 transparent !important;
+    outline: none;
+  }
+`;
+
+const Option = styled.option`
+  font-size: 12px;
+`;
+
+const Text = styled.div`
+    margin-bottom: .3rem;
+    font-weight: 300;
+`;
+
+const ComponentWrapper = styled.div`
+  color: rgb(115,121,140);
+  text-align: center;
+  font-size: 20px;
+`;
+
+const CartFooter = styled.div``;
+const DeliveryInfo = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 30px;
+  font-size: 12px;
+`;
+
+const CartContainer = ({pizzaService, authContext}) => {
+    const {user} = authContext;
+    const [currency, setCurrency] = useState('usd');
+    const rate = currency === 'usd' ? 1 : 1.09;
     const cart = useSelector(state => state.cart);
-    // TODO replace to utils
-    const total = cart.reduce((acc, item) => acc + (item.price * item.count), 0);
+    const dispatch = useDispatch();
+    const total = cart.reduce((acc, item) => acc + (item.price * item.count), 0) * rate;
+
+    useEffect(() => {
+        if (user) {
+            setCurrency(user.currency)
+        }
+    }, [user]);
+
+    const handleChangeCurrency = event => setCurrency(event.target.value);
 
     const sendCart = () => {
-        pizzaService.request('/cart', 'POST', cart)
-            .then(res => console.log(res))
+        if (!user) {
+            onStatusMessageChange(STATUS_MESSAGE.ORDER_NO_AUTH, dispatch);
+            return false;
+        }
+
+        const data = {
+            total,
+            cart,
+            currency,
+            userId: user.id,
+            email: user.email,
+            date: new Date()
+        };
+
+        pizzaService.request('/order', 'POST', data)
+            .then(({status}) => {
+                if (status === 201) {
+                    onClearCart(dispatch);
+                    onStatusMessageChange(STATUS_MESSAGE.ORDER_CREATED, dispatch);
+                } else {
+                    onStatusMessageChange(STATUS_MESSAGE.ORDER_NOT_CREATED, dispatch);
+                }
+            })
     };
+
+    const cartItems = cart.map((item, id) => (
+        <CartItem
+            key={item.title}
+            item={item}
+            id={id}
+            rate={rate}
+        />
+    ));
 
     return (
         <Container>
@@ -49,26 +133,56 @@ const CartContainer = ({pizzaService}) => {
                 <Elements.PageHeading>Cart</Elements.PageHeading>
                 <InnerWrapper>
                     {
-                        cart.map((item, id) => (
-                            <CartItem
-                                key={item.title}
-                                item={item}
-                                id={id}
-                            />)
-                        )
+                        cart.length > 0
+                            ? cartItems
+                            : (
+                                <ComponentWrapper>
+                                    <Text>Your cart is currently empty.</Text>
+                                    <Text>Taste our super <Link to='/pizza'>pizza</Link> before somebody did it before you!</Text>
+                                </ComponentWrapper>
+                            )
                     }
                 </InnerWrapper>
                 {
-                    !!cart.length && (
-                        <React.Fragment>
-                            <Total>Total: {total}</Total>
-                            <CartButtonsWrapper>
-                                <Link to='/pizza'>
-                                    <CartButton outline color='secondary'>Back to menu</CartButton>
-                                </Link>
-                                <CartButton color='primary' onClick={sendCart}>Order</CartButton>
-                            </CartButtonsWrapper>
-                        </React.Fragment>
+                    cart.length > 0 && (
+                        <CartFooter>
+                            <div>
+                                <TotalWrapper>
+                                    <Currency>
+                                        <span className='mr-2'>Currency:</span>
+                                        <Select onChange={handleChangeCurrency}>
+                                            {
+                                                CURRENCY.map(({title, description}) => (
+                                                    <Option
+                                                        selected={currency === description}
+                                                        value={description}
+                                                        key={description}
+                                                    >
+                                                        {
+                                                            `${title}`
+                                                        }
+                                                    </Option>
+                                                ))
+                                            }
+                                        </Select>
+                                    </Currency>
+                                    <Total>
+                                        Total: {round(total * 1.1)}
+                                    </Total>
+                                </TotalWrapper>
+                                <DeliveryInfo>
+                                    <em>10% added as a delivery cost</em>
+                                </DeliveryInfo>
+                            </div>
+                            <div>
+                                <CartButtonsWrapper>
+                                    <Link to='/pizza'>
+                                        <CartButton outline color='secondary'>Back to menu</CartButton>
+                                    </Link>
+                                    <CartButton color='primary' onClick={sendCart}>Order</CartButton>
+                                </CartButtonsWrapper>
+                            </div>
+                        </CartFooter>
                     )
                 }
             </Wrapper>
@@ -76,4 +190,4 @@ const CartContainer = ({pizzaService}) => {
     );
 };
 
-export const Cart = withPizzaService()(CartContainer);
+export const Cart = compose(withPizzaService(), withAuth())(CartContainer);

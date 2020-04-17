@@ -5,6 +5,7 @@ import {Elements} from '../../../parts';
 import bin from '../../../../assests/images/icons/bin.svg';
 import {useDispatch} from 'react-redux';
 import {onAddItem, onDecreaseItemCount, onDeleteItem} from '../../../../actions';
+import {round} from '../../../../utils';
 
 const Wrapper = styled.div`
   display:flex;
@@ -76,8 +77,8 @@ const Ingredients = styled.p`
   font-size: 14px;
 `;
 
-export const CartItem = ({item, id}) => {
-    const {title, img, price, count, ingredients} = item;
+export const CartItem = ({item, id, rate}) => {
+    const {title, image, price, count, ingredients} = item;
     const dispatch = useDispatch();
 
     const handleIncreaseCount = () => {
@@ -92,12 +93,15 @@ export const CartItem = ({item, id}) => {
         onDeleteItem(id, dispatch);
     };
 
+    const total = price * count * rate;
+    const imageSrc = `../public/images/${image}`;
+
     return (
         <Col xs={12}>
             <CardWrapper>
                 <Col xs={2}>
                     <ImageWrapper>
-                        <ItemImage src={img} alt={title} />
+                        <ItemImage src={imageSrc} alt={title} />
                     </ImageWrapper>
                 </Col>
                 <Col xs={10}>
@@ -126,7 +130,7 @@ export const CartItem = ({item, id}) => {
                             </CardPart>
                         </Col>
                         <Col xs={1}>
-                            <div>{price * count}</div>
+                            <div>{round(total)}</div>
                         </Col>
                         <DeleteButton onClick={handleDeleteItem}>
                             <ItemImage src={bin} alt='remove' />

@@ -1,16 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import {Button} from 'reactstrap';
-
-
-const AuthButton = styled(Button)`
-  border-radius: 100px;
-  width: 100px;
-  font-size: 14px;
-  &:last-child{
-    margin-left: 0.5rem;
-  }
-`;
+import {AuthButton} from '../auth-button';
 
 export const NotAuthorized = ({handleSignUp, handleSignIn}) => {
     return (

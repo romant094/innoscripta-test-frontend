@@ -9,7 +9,7 @@ const authContext = createContext({
     authenticated: false,
     user: null,
     token: '',
-    login: () => {},
+    obtainToken: () => {},
     logout: () => {},
     register: () => {},
     getUserData: () => {}

@@ -1,27 +1,26 @@
 import React, {useState} from 'react';
-import {compose} from 'redux';
 import {useSelector, useDispatch} from 'react-redux';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert} from 'reactstrap';
 import styled from 'styled-components';
 import {AuthTabs} from './auth-tabs';
 import {AuthForm} from './auth-form';
-import {AUTH_STATUS, AUTH_TABS, ERROR_MESSAGE} from '../constants';
-import {onChangeAuthType} from '../../actions';
-import {withAuth, withPizzaService} from '../hoc';
+import {onChangeAuthType} from '../../../actions';
+import {withAuth, withPizzaService} from '../../hoc';
+import {AUTH_STATUS, AUTH_TABS, STATUS_MESSAGE} from '../../constants';
 
 const ErrorMessage = styled(Alert)`
   padding: 0.25rem 0.75rem;
   font-size: 12px;
 `;
 
-const AuthModalContainer = ({authContext, pizzaService}) => {
+const AuthModalContainer = ({authContext}) => {
     const dispatch = useDispatch();
     const initialState = {
-        name: 'Антон',
-        password: '1111',
-        confirmPassword: '1111'
+        email: '',
+        password: '',
+        confirmPassword: ''
     };
-    const {authMsg, clearErrorMessage} = authContext;
+    const {authMsg} = authContext;
     const [authData, setAuthData] = useState(initialState);
     const [modalError, setModalError] = useState('');
 
@@ -39,35 +38,13 @@ const AuthModalContainer = ({authContext, pizzaService}) => {
 
     const toggleModal = () => handleChangeAuthType(null, dispatch);
 
-    const handleChangeAuthType = (type) => {
-        clearErrorMessage();
-        onChangeAuthType(type, dispatch)
-    };
+    const handleChangeAuthType = (type) => onChangeAuthType(type, dispatch);
 
-    const handleSubmit = () => {
-        setModalError('');
-        const {name, password, confirmPassword} = authData;
+    const emailValidation = email => {
+        let isValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
 
-        if (!nameValidation(name)) return false;
-
-        if (authType === 'reg') {
-            const passwordValid = passwordValidation(password, confirmPassword);
-            if (!passwordValid) return false;
-            authContext.register(name, password);
-        } else {
-            authContext.login(name, password);
-        }
-        if (!modalError && !authMsg) {
-            handleChangeAuthType(null)
-        }
-    };
-
-    const nameValidation = name => {
-        let isValid = true;
-
-        if (name.length === 0) {
-            setModalError('User name should not be empty');
-            isValid = false;
+        if (!isValid) {
+            setModalError('Email is not correct.');
         }
 
         return isValid;
@@ -76,18 +53,44 @@ const AuthModalContainer = ({authContext, pizzaService}) => {
     const passwordValidation = (pass1, pass2) => {
         let isValid = true;
 
+        if (pass1.length === 0) {
+            setModalError(STATUS_MESSAGE.PASSWORD_EMPTY);
+            isValid = false;
+        }
+
         if (authType === 'reg' && pass1.length < 4) {
-            setModalError('The password length should be at least 4 symbols');
+            setModalError(STATUS_MESSAGE.PASSWORD_SHORT);
             isValid = false;
         }
 
         if (authType === 'reg' && pass1 !== pass2) {
-            setModalError('The passwords does not match');
+            setModalError(STATUS_MESSAGE.PASSWORDS_NOT_MATCH);
             isValid = false;
         }
 
         return isValid
     };
+
+    const handleSubmit = () => {
+        const {email, password, confirmPassword} = authData;
+
+        if (!emailValidation(email)) return false;
+
+        const passwordValid = passwordValidation(password, confirmPassword);
+        if (!passwordValid) return false;
+
+        setModalError(null);
+
+        if (authType === 'reg') {
+            authContext.register(email, password);
+        } else {
+            authContext.obtainToken(email, password);
+        }
+
+        handleChangeAuthType(null);
+    };
+
+    const showErrorMessage = authMsg === AUTH_STATUS.FAILURE || authMsg === AUTH_STATUS.PENDING;
 
     return (
         <div>
@@ -109,7 +112,8 @@ const AuthModalContainer = ({authContext, pizzaService}) => {
                         modalError && <ErrorMessage color='danger'>{modalError}</ErrorMessage>
                     }
                     {
-                        authMsg !== 'ok' && <ErrorMessage color={authMsg === ERROR_MESSAGE.SENDING ? 'light' : 'danger'}>{authMsg}</ErrorMessage>
+                        showErrorMessage && <ErrorMessage
+                            color={authMsg === AUTH_STATUS.PENDING ? 'light' : 'danger'}>{authMsg}</ErrorMessage>
                     }
                 </ModalBody>
                 <ModalFooter>
@@ -121,4 +125,4 @@ const AuthModalContainer = ({authContext, pizzaService}) => {
     );
 };
 
-export const AuthModal = compose(withPizzaService(), withAuth())(AuthModalContainer);
+export const AuthModal = withAuth()(AuthModalContainer);

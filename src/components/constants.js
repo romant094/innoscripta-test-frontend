@@ -33,10 +33,10 @@ export const PROMO_ITEMS = [
 ];
 
 export const AUTH_STATUS = {
-    PENDING: 'pending',
-    SUCCESS: 'success',
-    FAILURE: 'failure',
-    NOT_ASKED: 'not asked'
+    PENDING: 'Pending',
+    SUCCESS: 'Success',
+    FAILURE: 'Failure',
+    NOT_ASKED: 'Not asked'
 };
 
 export const AUTH_TABS = [
@@ -44,7 +44,30 @@ export const AUTH_TABS = [
     {type: 'auth', label: 'Sign in'}
 ];
 
-export const ERROR_MESSAGE = {
-    SENDING: 'Sending...',
-    OK: 'ok'
+export const STATUS_MESSAGE = {
+    SERVER_ERROR: 'There is some wrong in our server. We already know about it and are in a hurry to fix it.',
+    ORDER_NO_AUTH: 'To make an order you need to sign in.',
+    ORDER_CREATED: 'Order has been created. We sent you an email that you used for registering as a confirmation. It may take several minutes to deliver the email.',
+    ORDER_NOT_CREATED: 'Order has not been created. Please try again later.',
+    ORDERS_NOT_RECEIVED: 'We have some problems with your orders, but we will fix it ASAP.',
+    SIGN_IN_SUCCESSFUL: 'You have successfully signed in.',
+    WRONG_CREDENTIALS: 'User name or password is not correct. Please check it and try again.',
+    PASSWORDS_NOT_MATCH: 'The passwords do not match.',
+    PASSWORD_SHORT: 'The password length should be at least 4 symbols.',
+    PASSWORD_EMPTY: 'The password length should not be empty.',
+    USER_CREATED: 'User successfully created.',
+    USER_SIGNED_IN: 'Signed in successfully.',
+    USER_SIGNED_OUT: 'Signed out successfully.',
+    USER_DATA_SAVED: 'Data successfully saved.'
 };
+
+export const CURRENCY = [
+    {
+        title: '$',
+        description: 'usd'
+    },
+    {
+        title: '€',
+        description: 'eur'
+    }
+];

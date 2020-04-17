@@ -19,6 +19,12 @@ export const onDeleteItem = (id, next) => {
     })
 };
 
+export const onClearCart = (next) => {
+    next({
+        type: 'CLEAR_CART'
+    })
+};
+
 export const onProductsLoaded = (items, next) => {
     next({
         type: 'PRODUCTS_LOADED',
@@ -30,5 +36,12 @@ export const onChangeAuthType = (type, next) => {
     next({
         type: 'CHANGE_AUTH_TYPE',
         payload: type
+    })
+};
+
+export const onStatusMessageChange = (msg, next) => {
+    next({
+        type: 'CHANGE_STATUS_MESSAGE',
+        payload: msg
     })
 };

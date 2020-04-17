@@ -21,3 +21,5 @@ export const debounce = function (f, ms) {
         setTimeout(() => isCooldown = false, ms);
     };
 };
+
+export const round = (value, countSymbols = 2) => Math.floor(value * 10 ** countSymbols) / 10 ** countSymbols;

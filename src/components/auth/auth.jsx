@@ -2,108 +2,106 @@ import React, {useState, useEffect} from 'react';
 import Cookies from 'cookies-js';
 import {AuthProvider} from '../context';
 import {withPizzaService} from '../hoc';
-import {AUTH_STATUS, ERROR_MESSAGE} from '../constants';
+import {AUTH_STATUS, STATUS_MESSAGE} from '../constants';
+import {useDispatch} from 'react-redux';
+import {onStatusMessageChange} from '../../actions';
 
 export const AuthContainer = ({pizzaService, ...restProps}) => {
-    const [authenticated, setAuthenticated] = useState(false);
-    const [user, setUser] = useState('');
-    const [token, setToken] = useState('');
+    const [user, setUser] = useState(null);
     const [authStatus, setAuthStatus] = useState(AUTH_STATUS.NOT_ASKED);
-    const [authMsg, setAuthMsg] = useState('ok');
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const token = Cookies.get('token');
-        console.log(token)
-        console.log(token && token.length);
         if (token && token.length > 0) {
-            setToken(token);
             verifyToken();
         } else {
+            logout();
             console.error('logged out')
-            logout()
         }
     }, []);
 
-    const verifyToken = () => {
+    const register = (email, password) => {
         setAuthStatus(AUTH_STATUS.PENDING);
-        setAuthMsg(ERROR_MESSAGE.SENDING);
-        pizzaService.request('/token/verification')
+        pizzaService.request('/user/registration', 'POST', {email, password})
             .then(res => {
-                handleReceivedResponse(res);
-                const {name} = res.result;
-                getUserData(name);
+                const {error} = res;
+
+                if (error) {
+                    setAuthStatus(AUTH_STATUS.FAILURE);
+                    onStatusMessageChange(error.errmsg, dispatch);
+                } else {
+                    setAuthStatus(AUTH_STATUS.SUCCESS);
+                    onStatusMessageChange(STATUS_MESSAGE.USER_CREATED, dispatch);
+                }
             })
     };
 
-    const login = (name, password) => {
+    const obtainToken = (email, password) => {
         setAuthStatus(AUTH_STATUS.PENDING);
-        setAuthMsg(ERROR_MESSAGE.SENDING);
-        pizzaService.request('/login', 'POST', {name, password})
-            .then(res => handleReceivedResponse(res, () => setSession(res)))
-    };
+        pizzaService.request('/token/obtaining', 'POST', {email, password})
+            .then(res => {
+                const {error, result, status} = res;
 
-    const register = (name, password) => {
-        setAuthStatus(AUTH_STATUS.PENDING);
-        setAuthMsg(ERROR_MESSAGE.SENDING);
-        pizzaService.request('/users', 'POST', {name, password})
-            .then(res => handleReceivedResponse(res))
+                if (error || status >= 300) {
+                    setAuthStatus(AUTH_STATUS.FAILURE);
+                    onStatusMessageChange(STATUS_MESSAGE.WRONG_CREDENTIALS, dispatch);
+                } else {
+                    setAuthStatus(AUTH_STATUS.SUCCESS);
+                    onStatusMessageChange(STATUS_MESSAGE.USER_SIGNED_IN, dispatch);
+                    getUserData(result.id)
+                }
+            })
     };
 
     const logout = () => {
         let date = new Date();
-        date = date.setDate(date.getDate() -1);
+        date = date.setDate(date.getDate() - 1);
         date = new Date(date);
         Cookies.set('token', '', {expires: date});
-        setAuthenticated(false);
         setUser(null);
-        setToken('');
-        setAuthStatus(AUTH_STATUS.NOT_ASKED);
     };
 
-    const getUserData = (user) => {
-        // TODO pizzaService.request(`/user/${user}`)
-        pizzaService.request(`/user/privet`)
+    const getUserData = (id) => {
+        setAuthStatus(AUTH_STATUS.PENDING);
+        pizzaService.request(`/user/${id}`)
             .then(res => {
-                setSession(res)
+                const {error, result} = res;
+
+                if (error) {
+                    setAuthStatus(AUTH_STATUS.FAILURE);
+                    onStatusMessageChange(error.errmsg, dispatch);
+                } else {
+                    setAuthStatus(AUTH_STATUS.SUCCESS);
+                    setUser(result);
+                }
             })
     };
 
-    const setSession = (authResults) => {
-        let newUser;
-        if (Array.isArray(authResults.result)){
-            newUser = authResults.result[0]
-        } else {
-            newUser = {...authResults.result.user}
-        }
+    const verifyToken = () => {
+        pizzaService.request('/token/verification')
+            .then(res => {
+                const {error, result} = res;
 
-        setAuthenticated(true);
-        setUser(newUser);
-    };
-
-    const clearErrorMessage = () => setAuthMsg(ERROR_MESSAGE.OK);
-    const handleReceivedResponse = (res, callback) => {
-        if (res.error) {
-            setAuthStatus(AUTH_STATUS.FAILURE);
-            setAuthMsg(res.error.errmsg);
-        } else {
-            setAuthStatus(AUTH_STATUS.SUCCESS);
-            setAuthMsg(ERROR_MESSAGE.OK);
-            if (callback) callback()
-        }
+                if (error) {
+                    setAuthStatus(AUTH_STATUS.FAILURE);
+                    onStatusMessageChange(error.errmsg, dispatch);
+                } else {
+                    setAuthStatus(AUTH_STATUS.SUCCESS);
+                    getUserData(result.id);
+                }
+            })
     };
 
     let authProvider = {
         user,
-        token,
-        authenticated,
         authStatus,
-        authMsg,
         getUserData,
-        login,
+        obtainToken,
         verifyToken,
         logout,
-        register,
-        clearErrorMessage
+        register
     };
 
     return (

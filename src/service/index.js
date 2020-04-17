@@ -8,11 +8,6 @@ export class PizzaService {
     request = async (url, method = 'GET', data = null) => {
         const headers = {};
         let body;
-        const token = Cookies.get('token');
-
-        if (token) {
-            headers['Authorization'] = `Bearer ${token}`;
-        }
 
         if (data) {
             headers['Content-Type'] = 'application/json';

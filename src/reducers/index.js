@@ -3,8 +3,8 @@ import {updateCart} from './utils';
 const initialState = {
     cart: [],
     products: [],
-    currency: 'usd',
-    authType: null
+    authType: null,
+    statusMessage: null
 };
 
 export const reducer = (state = initialState, action) => {
@@ -12,6 +12,11 @@ export const reducer = (state = initialState, action) => {
     const {type, payload} = action;
 
     switch (type) {
+        case 'CHANGE_STATUS_MESSAGE':
+            return {
+                ...state,
+                statusMessage: payload
+            };
         case 'CHANGE_AUTH_TYPE':
             return {
                 ...state,

@@ -9,15 +9,14 @@ const Wrapper = styled.div`
 export const AuthForm = ({handleChange, submitPasswordVisible}) => (
     <div>
         <Form>
-
             <FormGroup>
-                <Label for="name">User name</Label>
+                <Label for="email">E-mail</Label>
                 <Input
                     required
-                    type="text"
-                    name="name"
-                    id="name"
-                    placeholder="Enter user name"
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="Enter email"
                     onChange={handleChange}
                 />
             </FormGroup>
