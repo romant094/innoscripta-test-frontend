@@ -20,8 +20,8 @@ const CabinetContainer = ({authContext}) => {
 
     return (
         <Container>
-            <Row>
-                <Col>
+            <Row className='flex-column flex-sm-row'>
+                <Col className='col mb-5 mb-sm-0'>
                     <PersonalInformation user={user} getUserData={getUserData} />
                     <Link to='/'>
                         <Button color='primary' outline onClick={handleLogout}>Sign out</Button>
