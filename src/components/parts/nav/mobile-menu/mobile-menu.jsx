@@ -18,6 +18,8 @@ const Ddn = styled(Dropdown)`
   }
   .dropdown-menu{
     z-index: 100;
+    top: 0;
+    left: -1px;
   } 
 `;
 
