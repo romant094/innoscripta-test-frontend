@@ -55,7 +55,7 @@ export const STATUS_MESSAGE = {
     PASSWORDS_NOT_MATCH: 'The passwords do not match.',
     PASSWORD_SHORT: 'The password length should be at least 4 symbols.',
     PASSWORD_EMPTY: 'The password length should not be empty.',
-    USER_CREATED: 'User successfully created.',
+    USER_CREATED: 'User successfully created. There will be no email notification. Just sign in and enjoy your pizza.',
     USER_SIGNED_IN: 'Signed in successfully.',
     USER_SIGNED_OUT: 'Signed out successfully.',
     USER_DATA_SAVED: 'Data successfully saved.'

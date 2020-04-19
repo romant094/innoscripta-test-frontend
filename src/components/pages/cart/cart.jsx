@@ -46,6 +46,10 @@ const TotalWrapper = styled.div`
 const Currency = styled(Total)``;
 
 const Select = styled.select`
+  border: none;
+  background-color: transparent;
+  border-radius: 0;
+  border-bottom: 1px dashed var(--primary);
   &:active,
   &:focus{
     box-shadow: 0 0 0 0 transparent !important;

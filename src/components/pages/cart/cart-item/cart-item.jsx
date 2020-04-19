@@ -77,6 +77,10 @@ const Ingredients = styled.p`
   font-size: 14px;
 `;
 
+const CardTotal = styled.div`
+  font-size: 20px;
+`;
+
 export const CartItem = ({item, id, rate}) => {
     const {title, image, price, count, ingredients} = item;
     const dispatch = useDispatch();
@@ -98,43 +102,45 @@ export const CartItem = ({item, id, rate}) => {
 
     return (
         <Col xs={12}>
-            <CardWrapper>
-                <Col xs={2}>
+            <CardWrapper className='flex-column flex-sm-row'>
+                <Col xs={6} sm={2}>
                     <ImageWrapper>
                         <ItemImage src={imageSrc} alt={title} />
                     </ImageWrapper>
                 </Col>
-                <Col xs={10}>
-                    <Wrapper>
-                        <Col xs={6}>
+                <Col sm={10}>
+                    <Wrapper className='flex-column flex-sm-row'>
+                        <Col sm={6} className='text-center text-sm-left'>
                             <Elements.CardTitle>{title}</Elements.CardTitle>
                             <Ingredients>{ingredients}</Ingredients>
                         </Col>
-                        <Col xs={3}>
-                            <CardPart>
-                                <CountButton
-                                    outline
-                                    color='primary'
-                                    onClick={handleDecreaseCount}
-                                >
-                                    –
-                                </CountButton>
-                                <CountNumber>{count}</CountNumber>
-                                <CountButton
-                                    outline
-                                    color='primary'
-                                    onClick={handleIncreaseCount}
-                                >
-                                    +
-                                </CountButton>
-                            </CardPart>
+                        <Col sm={6} className='d-flex justify-content-between align-items-center pl-sm-0 pr-sm-0'>
+                            <Col sm={3}>
+                                <CardPart>
+                                    <CountButton
+                                        outline
+                                        color='primary'
+                                        onClick={handleDecreaseCount}
+                                    >
+                                        –
+                                    </CountButton>
+                                    <CountNumber>{count}</CountNumber>
+                                    <CountButton
+                                        outline
+                                        color='primary'
+                                        onClick={handleIncreaseCount}
+                                    >
+                                        +
+                                    </CountButton>
+                                </CardPart>
+                            </Col>
+                            <Col sm={1}>
+                                <CardTotal>{round(total)}</CardTotal>
+                            </Col>
+                            <DeleteButton onClick={handleDeleteItem}>
+                                <ItemImage src={bin} alt='remove' />
+                            </DeleteButton>
                         </Col>
-                        <Col xs={1}>
-                            <div>{round(total)}</div>
-                        </Col>
-                        <DeleteButton onClick={handleDeleteItem}>
-                            <ItemImage src={bin} alt='remove' />
-                        </DeleteButton>
                     </Wrapper>
                 </Col>
             </CardWrapper>
