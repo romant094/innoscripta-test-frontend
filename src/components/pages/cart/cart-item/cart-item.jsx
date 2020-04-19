@@ -115,7 +115,7 @@ export const CartItem = ({item, id, rate}) => {
                             <Ingredients>{ingredients}</Ingredients>
                         </Col>
                         <Col sm={6} className='d-flex justify-content-between align-items-center pl-sm-0 pr-sm-0'>
-                            <Col sm={3}>
+                            <Col xs={4} sm={6} className='pl-sm-0 pr-sm-0'>
                                 <CardPart>
                                     <CountButton
                                         outline
@@ -134,12 +134,14 @@ export const CartItem = ({item, id, rate}) => {
                                     </CountButton>
                                 </CardPart>
                             </Col>
-                            <Col sm={1}>
+                            <Col xs={4} sm={4} className='text-center pl-sm-0 pr-sm-0'>
                                 <CardTotal>{round(total)}</CardTotal>
                             </Col>
-                            <DeleteButton onClick={handleDeleteItem}>
-                                <ItemImage src={bin} alt='remove' />
-                            </DeleteButton>
+                            <Col xs={4} sm={2} className=' pl-sm-0 pr-sm-0'>
+                                <DeleteButton onClick={handleDeleteItem} className='mx-auto'>
+                                    <ItemImage src={bin} alt='remove' />
+                                </DeleteButton>
+                            </Col>
                         </Col>
                     </Wrapper>
                 </Col>

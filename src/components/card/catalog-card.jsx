@@ -27,6 +27,10 @@ const CardPrice = styled(CardText)`
   font-weight: 500;
 `;
 
+const Body = styled(CardBody)`
+  padding: 1.25rem 0.5rem;
+`;
+
 export const CatalogCard = ({item}) => {
     const {image, title, ingredients, price, type} = item;
     const dispatch = useDispatch();
@@ -40,7 +44,7 @@ export const CatalogCard = ({item}) => {
     return (
         <CardItem>
             <CardImg top width="100%" src={imageSrc} alt={type} />
-            <CardBody>
+            <Body>
                 <Elements.CardTitle>{title}</Elements.CardTitle>
                 <CatalogCardText>{ingredients}</CatalogCardText>
                 <CatalogCardFooter tag='div'>
@@ -53,7 +57,7 @@ export const CatalogCard = ({item}) => {
                         Add to cart
                     </Button>
                 </CatalogCardFooter>
-            </CardBody>
+            </Body>
         </CardItem>
     );
 };
