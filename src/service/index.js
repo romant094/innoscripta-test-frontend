@@ -1,7 +1,7 @@
-import {SERVER} from '../constants';
+import {HEROKU_API_URI, LOCAL_API_URI} from '../constants';
 
 const {origin} = window.location;
-const apiUrl = origin === 'http://localhost:3000' ? `${SERVER}/api/v1` : '/api/v1';
+const apiUrl = origin === 'http://localhost:3000' ? HEROKU_API_URI : LOCAL_API_URI;
 
 export class PizzaService {
     _apiBase = apiUrl;
