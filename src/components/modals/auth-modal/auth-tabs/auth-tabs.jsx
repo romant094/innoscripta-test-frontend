@@ -2,8 +2,29 @@ import React from 'react';
 import {Nav, NavItem, NavLink} from 'reactstrap';
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
+
+const TabsWrapper = styled(Nav)`
+  margin-bottom: 20px;
+  display:flex;
+  justify-content:space-between;
+  border-width: 2px;
+`;
+
+const TabsItem = styled(NavItem)`
+  margin-bottom: -2px !important;
+  width: 50%;
+  text-align: center;
+`;
+
+const TabsLink = styled(NavLink)`
+  padding: 0 1rem 0.25rem;
+  border: none !important;
+  letter-spacing: 1px;
   
+  &.active{
+    color: var(--primary) !important;
+    border-bottom: 2px solid var(--primary) !important;
+  }
 `;
 
 export const AuthTabs = (props) => {
@@ -12,24 +33,24 @@ export const AuthTabs = (props) => {
     const handleClick = type => handleChangeAuthType(type);
 
     return (
-        <div>
-            <Nav tabs>
+        <React.Fragment>
+            <TabsWrapper tabs>
                 {
                     tabLabels.map((tab, id) => (
-                        <NavItem key={tab.label}>
-                            <NavLink
+                        <TabsItem key={tab.label}>
+                            <TabsLink
                                 className={activeTab === id ? 'active' : ''}
                                 onClick={() => handleClick(tab.type)}
                             >
                                 {tab.label}
-                            </NavLink>
-                        </NavItem>
+                            </TabsLink>
+                        </TabsItem>
                     ))
                 }
-            </Nav>
-            <Wrapper>
+            </TabsWrapper>
+            <div>
                 {children}
-            </Wrapper>
-        </div>
+            </div>
+        </React.Fragment>
     );
 };
