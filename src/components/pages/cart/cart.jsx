@@ -57,17 +57,6 @@ const Option = styled.option`
   font-size: 12px;
 `;
 
-const Text = styled.div`
-    margin-bottom: .3rem;
-    font-weight: 300;
-`;
-
-const ComponentWrapper = styled.div`
-  color: rgb(115,121,140);
-  text-align: center;
-  font-size: 20px;
-`;
-
 const CartFooter = styled.div``;
 const DeliveryInfo = styled.div`
   display: flex;
@@ -136,10 +125,10 @@ const CartContainer = ({pizzaService, authContext}) => {
                         cart.length > 0
                             ? cartItems
                             : (
-                                <ComponentWrapper>
-                                    <Text>Your cart is currently empty.</Text>
-                                    <Text>Taste our super <Link to='/pizza'>pizza</Link> before somebody did it before you!</Text>
-                                </ComponentWrapper>
+                                <Elements.TextWrapper>
+                                    <Elements.Text>Your cart is currently empty.</Elements.Text>
+                                    <Elements.Text>Taste our super <Link to='/pizza'>pizza</Link> before somebody did it before you!</Elements.Text>
+                                </Elements.TextWrapper>
                             )
                     }
                 </InnerWrapper>

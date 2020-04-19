@@ -1,12 +1,23 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Container} from 'reactstrap';
+import styled from 'styled-components';
+import {Elements} from '../parts';
+
+const Wrapper = styled.div`
+  padding-top: 40px;
+`;
 
 export const ErrorIndicator = () => {
     return (
-        <div>
-            <p>Oops!</p>
-            <p>We have already sent a courier for some more cheese...</p>
-            <p>Visit our <Link to='/'>Home page</Link></p>
-        </div>
+        <Wrapper>
+            <Container>
+                <Elements.TextWrapper>
+                    <Elements.Text>Oops!</Elements.Text>
+                    <Elements.Text>We already know about this problem and have already a courier with instruments to fix
+                        it...</Elements.Text>
+                    <Elements.Text>Visit our <a href='/'>Home page</a></Elements.Text>
+                </Elements.TextWrapper>
+            </Container>
+        </Wrapper>
     );
 };
