@@ -2,11 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {BrowserRouter as Router} from 'react-router-dom';
-import {PizzaServiceProvider} from './components/context';
 import {PizzaService} from './service';
-import {ErrorBoundary} from './components/error-boundary';
-import {Auth} from './components/auth/auth';
-import {App} from './components/app';
+import {Auth, PizzaServiceProvider, ErrorBoundary, App} from './components';
 import {store} from './stores';
 import './assests/css/bootstrap.css';
 

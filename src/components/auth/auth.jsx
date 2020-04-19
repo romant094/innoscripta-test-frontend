@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import Cookies from 'cookies-js';
 import {AuthProvider} from '../context';
 import {withPizzaService} from '../hoc';
@@ -11,16 +11,6 @@ export const AuthContainer = ({pizzaService, ...restProps}) => {
     const [authStatus, setAuthStatus] = useState(AUTH_STATUS.NOT_ASKED);
 
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        const token = Cookies.get('token');
-        if (token && token.length > 0) {
-            verifyToken();
-        } else {
-            logout();
-            console.error('logged out')
-        }
-    }, []);
 
     const register = (email, password) => {
         setAuthStatus(AUTH_STATUS.PENDING);
@@ -63,36 +53,52 @@ export const AuthContainer = ({pizzaService, ...restProps}) => {
         setUser(null);
     };
 
-    const getUserData = (id) => {
-        setAuthStatus(AUTH_STATUS.PENDING);
-        pizzaService.request(`/user/${id}`)
-            .then(res => {
-                const {error, result} = res;
+    const getUserData = useCallback(
+        (id) => {
+            setAuthStatus(AUTH_STATUS.PENDING);
+            pizzaService.request(`/user/${id}`)
+                .then(res => {
+                    const {error, result} = res;
 
-                if (error) {
-                    setAuthStatus(AUTH_STATUS.FAILURE);
-                    onStatusMessageChange(error.errmsg, dispatch);
-                } else {
-                    setAuthStatus(AUTH_STATUS.SUCCESS);
-                    setUser(result);
-                }
-            })
-    };
+                    if (error) {
+                        setAuthStatus(AUTH_STATUS.FAILURE);
+                        onStatusMessageChange(error.errmsg, dispatch);
+                    } else {
+                        setAuthStatus(AUTH_STATUS.SUCCESS);
+                        setUser(result);
+                    }
+                })
+        },
+        [pizzaService, dispatch, setUser]
+    );
 
-    const verifyToken = () => {
-        pizzaService.request('/token/verification')
-            .then(res => {
-                const {error, result} = res;
 
-                if (error) {
-                    setAuthStatus(AUTH_STATUS.FAILURE);
-                    onStatusMessageChange(error.errmsg, dispatch);
-                } else {
-                    setAuthStatus(AUTH_STATUS.SUCCESS);
-                    getUserData(result.id);
-                }
-            })
-    };
+    const verifyToken = useCallback(
+        () => {
+            pizzaService.request('/token/verification')
+                .then(res => {
+                    const {error, result} = res;
+
+                    if (error) {
+                        setAuthStatus(AUTH_STATUS.FAILURE);
+                        onStatusMessageChange(error.errmsg, dispatch);
+                    } else {
+                        setAuthStatus(AUTH_STATUS.SUCCESS);
+                        getUserData(result.id);
+                    }
+                })
+        },
+        [pizzaService, dispatch, getUserData]
+    );
+
+    useEffect(() => {
+        const token = Cookies.get('token');
+        if (token && token.length > 0) {
+            verifyToken();
+        } else {
+            logout();
+        }
+    }, [verifyToken]);
 
     let authProvider = {
         user,

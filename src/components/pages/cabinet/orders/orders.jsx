@@ -22,10 +22,6 @@ const OrderInfoPart = styled.div`
     margin-bottom: 0;
   }
 `;
-const OrderInfoPartFlex = styled(OrderInfoPart)`
-  display:flex;
-  justify-content: space-between;
-`;
 
 const OrdersContainer = ({pizzaService, user}) => {
     const [orders, setOrders] = useState([]);
@@ -33,7 +29,7 @@ const OrdersContainer = ({pizzaService, user}) => {
     useEffect(() => {
         pizzaService.request(`/orders/${user.id}`)
             .then(res => setOrders(res.result))
-    }, []);
+    }, [pizzaService, user.id]);
 
     if (!orders) return <Spinner />;
 

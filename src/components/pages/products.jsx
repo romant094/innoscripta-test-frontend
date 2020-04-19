@@ -26,7 +26,7 @@ const ProductsContainer = ({product, pizzaService}) => {
                         setItems(items);
                         onProductsLoaded(items, dispatch)
                     } else {
-                        console.log('Data receiving error')
+                        console.error('Data receiving error')
                     }
                 });
         }

@@ -18,7 +18,6 @@ const authContext = createContext({
 export const AuthProvider = authContext.Provider;
 export const AuthConsumer = authContext.Consumer;
 
-
 export {
     PizzaServiceProvider,
     PizzaServiceConsumer

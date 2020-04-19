@@ -13,7 +13,6 @@ const CatalogCardText = styled(CardText)`
   color: rgb(115, 121, 140);
   font-weight: 300;
   font-size: 14px;
-  // TODO count max height of a block
   height: 100px;
 `;
 
@@ -36,7 +35,7 @@ export const CatalogCard = ({item}) => {
         onAddItem(item, dispatch);
     };
 
-    const imageSrc = `../public/images/${image}`;
+    const imageSrc = `/images/${image}`;
 
     return (
         <CardItem>

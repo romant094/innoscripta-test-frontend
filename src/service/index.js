@@ -1,9 +1,10 @@
-import Cookies from 'cookies-js';
+import {SERVER} from '../constants';
 
 const {origin} = window.location;
+const apiUrl = origin === 'http://localhost:3000' ? `${SERVER}/api/v1` : '/api/v1';
 
 export class PizzaService {
-    _apiBase = origin === 'http://localhost:3000' ? 'http://localhost:9000/api/v1' : '/api/v1';
+    _apiBase = apiUrl;
 
     request = async (url, method = 'GET', data = null) => {
         const headers = {};

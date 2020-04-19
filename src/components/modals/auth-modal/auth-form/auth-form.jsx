@@ -1,10 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
-
-const Wrapper = styled.div`
-  
-`;
+import {Form, FormGroup, Label, Input} from 'reactstrap';
 
 export const AuthForm = ({handleChange, submitPasswordVisible}) => (
     <div>

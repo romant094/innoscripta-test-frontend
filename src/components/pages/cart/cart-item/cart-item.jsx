@@ -94,7 +94,7 @@ export const CartItem = ({item, id, rate}) => {
     };
 
     const total = price * count * rate;
-    const imageSrc = `../public/images/${image}`;
+    const imageSrc = `/images/${image}`;
 
     return (
         <Col xs={12}>

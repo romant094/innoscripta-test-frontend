@@ -68,7 +68,6 @@ const PersonalInformationContainer = ({user, getUserData, pizzaService}) => {
                     addressChanged = false;
                     currencyChanged = false;
                 }
-                console.log(res)
             })
     };
 

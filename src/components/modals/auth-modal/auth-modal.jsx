@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import {AuthTabs} from './auth-tabs';
 import {AuthForm} from './auth-form';
 import {onChangeAuthType} from '../../../actions';
-import {withAuth, withPizzaService} from '../../hoc';
+import {withAuth} from '../../hoc';
 import {AUTH_STATUS, AUTH_TABS, STATUS_MESSAGE} from '../../constants';
 
 const ErrorMessage = styled(Alert)`
