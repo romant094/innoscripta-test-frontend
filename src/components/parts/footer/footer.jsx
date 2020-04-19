@@ -5,6 +5,8 @@ const FooterWrapper = styled.div`
   background-color: #373535;
   padding: 25px 0;
   text-align: center;
+  display:flex;
+  flex-direction: column;
 `;
 
 const FooterContent = styled.span`
@@ -18,6 +20,7 @@ export const Footer = () => {
     return (
         <FooterWrapper>
             <FooterContent>Pacman Pizza © {year}</FooterContent>
+            <FooterContent>Found a bug? Contact me via <a href='https://t.me/romant094' target='_blank'>telegram</a>.</FooterContent>
         </FooterWrapper>
     );
 };
