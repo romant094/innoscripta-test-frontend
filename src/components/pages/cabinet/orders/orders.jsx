@@ -37,7 +37,7 @@ const OrdersContainer = ({pizzaService, user}) => {
         const addZero = x => x < 10 ? '0' + x : x;
 
         const date = new Date(d);
-        const day = date.getDay();
+        const day = date.getDate();
         const month = date.getMonth();
         const year = date.getFullYear();
 
@@ -51,7 +51,7 @@ const OrdersContainer = ({pizzaService, user}) => {
         return (
             <OrderInfo key={date}>
                 <OrderInfoPart>
-                        <strong>Date:</strong> {formatDate(date)}
+                    <strong>Date:</strong> {formatDate(date)}
                 </OrderInfoPart>
                 <OrderInfoPart>
                     <strong>Details:</strong> {products}
