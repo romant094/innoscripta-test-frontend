@@ -79,7 +79,7 @@ export const Nav = () => {
             <Container>
                 <NavigationWrapper>
                     <MobileMenu />
-                    <NavigationInnerWrapper className='d-none d-md-block'>
+                    <NavigationInnerWrapper className='d-none d-sm-block'>
                         <SmallLogo src={logoSmall} alt='Pacman Pizza' hoveredOffset={hoveredOffset} />
                         <ListGroup>
                             {PRODUCT_TYPES.map(({title, type}) => (

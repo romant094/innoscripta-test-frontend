@@ -33,8 +33,8 @@ export const MobileMenu = () => {
     const toggle = () => setDropdownOpen(!dropdownOpen);
 
     return (
-        <Nav>
-            <Ddn nav isOpen={dropdownOpen} toggle={toggle} className='d-md-none'>
+        <Nav className='d-sm-none'>
+            <Ddn nav isOpen={dropdownOpen} toggle={toggle}>
                 <DropdownToggle nav>
                     <Img src={bars} alt='Menu' />
                 </DropdownToggle>

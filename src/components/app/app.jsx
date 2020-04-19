@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   height: 100%;
   min-height: 100vh;
+  min-width: 355px;
 `;
 
 export const App = () => {

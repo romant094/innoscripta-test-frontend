@@ -12,6 +12,12 @@ const FooterWrapper = styled.div`
 const FooterContent = styled.span`
   color: #fff;
   opacity: .7;
+  
+  margin-bottom: 10px;
+  
+  &:last-child{
+    margin-bottom: 0;
+  }
 `;
 
 
@@ -20,7 +26,7 @@ export const Footer = () => {
     return (
         <FooterWrapper>
             <FooterContent>Pacman Pizza © {year}</FooterContent>
-            <FooterContent>Found a bug? Contact me via <a href='https://t.me/romant094' target='_blank'>telegram</a>.</FooterContent>
+            <FooterContent>Found a bug? Contact me via <a href='https://t.me/romant094' target='_blank'>Telegram</a>.</FooterContent>
         </FooterWrapper>
     );
 };
