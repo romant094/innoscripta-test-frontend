@@ -16,6 +16,7 @@ const SlideImage = styled.img`
 `;
 
 const Indicators = styled(CarouselIndicators)`
+  z-index: 5;
   
   li {
     width: 12px;

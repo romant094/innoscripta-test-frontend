@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {Container} from 'reactstrap';
 import {CartButton} from './cart-button';
+import {MobileMenu} from './mobile-menu';
 import {PRODUCT_TYPES} from '../../constants';
 import logoSmall from '../../../assests/images/logo/logo-small.svg';
 
@@ -77,7 +78,8 @@ export const Nav = () => {
         <Navigation>
             <Container>
                 <NavigationWrapper>
-                    <NavigationInnerWrapper>
+                    <MobileMenu />
+                    <NavigationInnerWrapper className='d-none d-md-block'>
                         <SmallLogo src={logoSmall} alt='Pacman Pizza' hoveredOffset={hoveredOffset} />
                         <ListGroup>
                             {PRODUCT_TYPES.map(({title, type}) => (
